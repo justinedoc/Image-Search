@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Searcher | From Pexels</title>
+
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header id="header">
+      <h1>Javascript Image Searcher</h1>
+      <p>
+        Search and get your desired image within a second using this
+        Javascript-powered Image Searcher...
+        <span class="more hidden"
+          >that returns wonderful images to you directly from Pexels
+          libaries</span
+        >
+      </p>
+
+      <div class="search-box">
+        <input
+          type="text"
+          placeholder="Describe your desired image"
+          id="InputValue"
+          class="input"
+          required
+        />
+
+        <input
+          type="number"
+          class="select"
+          placeholder="Amt. 1-10"
+          id="NoInputValue"
+        />
+        <button class="btn" id="SearchBtn">Search</button>
+        <button class="btn hidden" id="reloadBtn">Search Again</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="image-list">
+        <div class="search-for">
+          <i class="bx bx-search"></i>
+          <h1>Search for an image...</h1>
+        </div>
+        <div class="loading hidden">
+          <i class="bx bx-loader bx-spin"></i>
+        </div>
+        <template>
+          <div class="image">
+            <img src="img/img1.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img2.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img3.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img4.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img1.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img2.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img3.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+          <div class="image">
+            <img src="img/img4.jpeg" alt="" />
+            <button class="download-btn"><i class="bx bx-download"></i></button>
+          </div>
+        </template>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
