@@ -53,7 +53,7 @@ async function fetchImages(inputValue) {
       for (const photo of data.photos) {
         const {
           alt,
-          src: { original: img },
+          src: { medium: img },
         } = photo;
         imageListEl.innerHTML += `
         <div class="image">
