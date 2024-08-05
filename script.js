@@ -26,7 +26,7 @@ search("InputValue", "SearchBtn");
 
 ///// FUNCTION TO FETCH IMAGE ////
 async function fetchImages(inputValue) {
-  const defaultAmt = 8;
+  let defaultAmt = window.screen.availWidth < 480 ? 4 : 8;
   let baseURL = `https://api.pexels.com/v1/search?query=${inputValue}&per_page=${defaultAmt}&page=1`;
 
   loader.classList.remove("hidden");
