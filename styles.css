@@ -72,7 +72,7 @@ header p {
   scale: 1;
   cursor: pointer;
 
-  opacity: .5;
+  opacity: 0.5;
   pointer-events: none;
 }
 
@@ -241,12 +241,12 @@ main .image-list {
   }
 
   .search-box button {
-    width: 60%;
+    width: 55%;
     height: auto;
     border-radius: 30px;
     position: absolute;
     bottom: 10px;
-    right: 20%;
+    right: 22%;
     padding: 9px;
     font-size: 17px;
   }
@@ -303,12 +303,17 @@ main .image-list {
 
 @media only screen and (max-width: 400px) {
   main {
-    padding: 20px;
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 2.2em;
+    line-height: 43px;
   }
 
   header {
-    height: 53vh;
-    padding-bottom: 0px;
+    height: auto;
+    padding-bottom: 70px;
   }
 
   .search-for h1 {
