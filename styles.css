@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  -webkit-tap-highlight-color: #22222218;
 }
 
 body {
@@ -12,13 +13,13 @@ body {
 }
 
 header {
-  height: 45vh;
+  height: 50vh;
   background-image: url("img/searchbg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 20% top;
 
-  padding: 40px 50px 40px 50px;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,32 +47,21 @@ header p {
   width: 550px;
   background: #fff;
   border-radius: 50px;
-  /* overflow: hidden; */
   gap: 10px;
   height: 45px;
   padding: 2px 2px 2px 20px;
 }
 
 .search-box input {
-  width: 52%;
+  width: 100%;
   background: transparent;
   border: none;
   outline: none;
   font-size: 0.9em;
 }
 
-.search-box .select {
-  margin-left: auto;
-  width: 15%;
-  text-align: center;
-  background: transparent;
-  border: none;
-  outline: none;
-  position: relative;
-}
-
 .search-box button {
-  width: 30%;
+  width: 35%;
   height: 95%;
   border-radius: 50px;
   background: #3558f3;
@@ -82,17 +72,17 @@ header p {
   scale: 1;
   cursor: pointer;
 
-  /* opacity: .5;
-  pointer-events: none; */
+  opacity: .5;
+  pointer-events: none;
 }
 
-/* .search-box input.input:valid~button {
-    opacity: 1;
-    pointer-events: all;
-} */
+.search-box input:valid ~ button {
+  opacity: 1;
+  pointer-events: all;
+}
 
 .search-box button:hover {
-  background: #5171ff;
+  background: #1b43f6;
 }
 
 main {
@@ -121,18 +111,17 @@ main .image-list {
 
 .search-for i,
 .loading i {
-  font-size: 5rem;
+  font-size: 5em;
 }
 
 .search-for h1 {
-  font-size: 3rem;
-  font-weight: 400;
-  
+  font-size: 3em;
+  font-weight: 200;
 }
 
 .image {
   width: 250px;
-  height: 230px;
+  height: 250px;
   position: relative;
   cursor: pointer;
   transition: 0.5s ease;
@@ -153,26 +142,28 @@ main .image-list {
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: rgba(231, 230, 230, 0.637);
-  display: none;
+  background: transparent;
+  scale: 0;
   transition: 0.3s ease;
   cursor: pointer;
+  backdrop-filter: blur(20px);
 }
 
 .image button:hover {
-  background: rgba(255, 255, 255, 0.637);
+  background: #a2a2a207;
 }
 
 .image button i {
   font-size: 25px;
+  color: #fff;
 }
 
 .image:hover {
-  transform: scale(1.05);
+  transform: scale(1.005);
 }
 
 .image:hover button {
-  display: block;
+  scale: 1;
 }
 
 .hidden {
@@ -278,8 +269,9 @@ main .image-list {
   header p {
     font-size: 14px;
     width: 350px;
-    line-height: 20px;
+    line-height: 19px;
     color: #e6e6e6;
+    margin-bottom: unset;
   }
 
   .search-box {
@@ -315,16 +307,8 @@ main .image-list {
   }
 
   header {
-    height: auto;
-    padding-bottom: 70px;
-  }
-
-  .search-box .select {
-    width: 25%;
-    text-align: right;
-    color: #000;
-    font-weight: 500;
-    font-size: 12px;
+    height: 53vh;
+    padding-bottom: 0px;
   }
 
   .search-for h1 {

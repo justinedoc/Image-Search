@@ -3,123 +3,125 @@
 const API = "3rpbYxdOEi36Ato7meo42FEqCCvHnQRYpq4H6EecpwyIy9hI6q0aDd8U";
 const imageListEl = document.querySelector(".image-list");
 const imageEl = document.querySelectorAll(".image");
-
-const load = (I, A) => {
-  let counter = 0;
-  const loading = setInterval(() => {
-    counter++;
-
-    document.querySelector(".search-for").classList.add("hidden");
-    document.querySelector(".loading").classList.remove("hidden");
-    if (counter === 70) {
-      document.querySelector(".loading").classList.add("hidden");
-      counter = 0;
-      clearInterval(loading);
-      fetchImages(I, A);
-    }
-  }, 50);
-};
-
-const search = (input, button, noInput, reload) => {
+const loader = document.querySelector(".loading");
+const searchForEl = document.querySelector(".search-for");
+let downloadBtn;
+///// SEARCH FUNCTION //////
+const search = (input, button) => {
   const inputBox = document.getElementById(input);
   const searchBtn = document.getElementById(button);
-  const amount = document.getElementById(noInput);
-  const reloadBtn = document.getElementById(reload);
 
-  const keyEventListeners = (input) => {
-    input.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        load(inputBox.value, amount.value);
-        reloadBtn.classList.remove("hidden");
-        searchBtn.classList.add("hidden");
-        inputBox.disabled();
-        inputBox.value = "";
-        amount.value = "";
-      }
-    });
-  };
-
-  keyEventListeners(inputBox);
-  keyEventListeners(amount);
+  inputBox.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      inputBox.value && fetchImages(inputBox.value);
+    }
+  });
 
   searchBtn.addEventListener("click", () => {
-    load(inputBox.value, amount.value);
-    reloadBtn.classList.remove("hidden");
-    searchBtn.classList.add("hidden");
-    inputBox.value = "";
-    amount.value = "";
-  });
-
-  reloadBtn.addEventListener("click", () => {
-    location.reload();
+    inputBox.value && fetchImages(inputBox.value);
   });
 };
 
-search("InputValue", "SearchBtn", "NoInputValue", "reloadBtn");
+search("InputValue", "SearchBtn");
 
-const fetchImages = (inputValue, amount) => {
-  let amountNo = parseFloat(amount);
-  let url = `https://api.pexels.com/v1/search?query=${inputValue}&per_page=${amountNo}&page=1`;
+///// FUNCTION TO FETCH IMAGE ////
+async function fetchImages(inputValue) {
+  const defaultAmt = 8;
+  let baseURL = `https://api.pexels.com/v1/search?query=${inputValue}&per_page=${defaultAmt}&page=1`;
 
-  if (amountNo < 1 || amountNo > 10) {
-    alert("amout cannot be more than 10 or less than 1");
-    amountNo = 4;
-  } else {
-    url = `https://api.pexels.com/v1/search?query=${inputValue}&per_page=${amountNo}&page=1`;
-  }
-
-  fetch(url, {
-    method: "Get",
-    headers: new Headers({
-      Authorization: API,
-    }),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-
-      if (data.code === "No query param given") {
-        alert("please input a search query");
-      } else {
-        for (let i = 0; i < data.photos.length; i++) {
-          imageListEl.innerHTML += `
-          <div class="image">
-            <img src=${data.photos[i].src.portrait} alt=${data.photos[i].alt} />
-            <button class="download-btn"><i class="bx bx-download"></i></button>
-          </div>`;
-          download(data.photos[i].src.portrait, data.photos[i].alt);
-        }
-      }
-    });
-};
-
-const download = (imgUrl, name) => {
-  const downloadBtn = document.querySelectorAll(".download-btn");
-
-  const downImg = () => {
-    fetch(imgUrl, {
+  loader.classList.remove("hidden");
+  searchForEl.classList.add("hidden");
+  try {
+    const response = await fetch(baseURL, {
       method: "Get",
       headers: new Headers({
         Authorization: API,
       }),
-    })
-      .then((response) => {
-        return response.blob();
-      })
-      .then((file) => {
-        let tempDownloadLink = URL.createObjectURL(file);
-        let aTag = document.createElement("a");
-        aTag.href = tempDownloadLink;
-        aTag.download = name;
-        document.body.appendChild(aTag);
-        aTag.click();
-        aTag.remove();
-      });
-  };
+    });
 
-  for (let i = 0; i < downloadBtn.length; i++) {
-    downloadBtn[i].addEventListener("click", downImg);
+    const data = await response.json();
+    if (data.code === "No query param given") {
+      Swal.fire({
+        icon: "error",
+        title: "Try again later",
+        backdrop: `rgba(0,0,5,0.4)`,
+        timer: 3000,
+      });
+    } else {
+      imageListEl.innerHTML = ``;
+      console.log(data.photos);
+      for (const photo of data.photos) {
+        const {
+          alt,
+          src: { original: img },
+        } = photo;
+        imageListEl.innerHTML += `
+        <div class="image">
+          <img src=${img} alt=${alt} class="img"/>
+          <button class="download-btn"><i class="bx bx-download icon"></i></button>
+        </div>`;
+        downloadBtn = document.querySelectorAll(".download-btn");
+      }
+      download();
+    }
+    loader.classList.add("hidden");
+  } catch (err) {
+    console.log(err);
+    Swal.fire({
+      icon: "error",
+      title: "No Internet Connection",
+      backdrop: `rgba(0,0,5,0.4)`,
+      timer: 5000,
+    });
+
+    searchForEl.classList.remove("hidden");
+    loader.classList.add("hidden");
   }
+}
+
+async function downloadImg(imgURL, imgName) {
+  const icons = document.querySelectorAll(".icon");
+  const switchIcons = (firstParam, secondParam, spin) => {
+    icons.forEach((icon) => {
+      icon.classList.replace(firstParam, secondParam);
+      if (spin) {
+        icon.classList.add("bx-spin");
+      } else {
+        icon.classList.remove("bx-spin");
+      }
+    });
+  };
+  switchIcons("bx-download", "bx-loader-alt", true);
+
+  try {
+    const response = await fetch(imgURL, {
+      method: "Get",
+      headers: new Headers({
+        Authorization: API,
+      }),
+    });
+
+    const file = await response.blob();
+    const downloadLink = URL.createObjectURL(file);
+    const aTag = document.createElement("a");
+    aTag.href = downloadLink;
+    aTag.download = imgName.slice(0, 10);
+    aTag.click();
+    aTag.remove();
+    switchIcons("bx-loader-alt", "bx-download", false);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const download = () => {
+  const downloadBtn = document.querySelectorAll(".download-btn");
+  downloadBtn.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      const parentEl = event.target.closest(".image");
+      const imgEl = parentEl.querySelector("img");
+      console.log(imgEl.alt);
+      downloadImg(imgEl.src, imgEl.alt);
+    });
+  });
 };
