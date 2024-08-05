@@ -143,8 +143,8 @@ main .image-list {
   border-radius: 50%;
   border: none;
   background: transparent;
-  scale: 0;
-  transition: 0.3s ease;
+  transform: scale(0);
+  transition: 0.2s ease;
   cursor: pointer;
   backdrop-filter: blur(20px);
 }
@@ -158,12 +158,8 @@ main .image-list {
   color: #fff;
 }
 
-.image:hover {
-  transform: scale(1.005);
-}
-
 .image:hover button {
-  scale: 1;
+  transform: scale(1);
 }
 
 .hidden {
