@@ -1,4 +1,4 @@
-# Image Search Application with Pexels API
+# Image Search Application
 
 Discover a world of stunning visuals with this Image Search Application, which integrates the Pexels API to fetch and display a vast array of images. Whether you're looking for inspiration, specific imagery, or just browsing, this tool makes it effortless to find high-quality photos that match your search criteria.
 
